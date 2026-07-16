@@ -1,2 +1,3 @@
 # SOC-AI-Incident-Response-Automation
-End-to-end SOC Incident Response Automation using Splunk, Elastic Defend, n8n, Gemini AI, AbuseIPDB and Slack Analyst Approval.
+
+An end-to-end Security Operations Center (SOC) automation project that integrates Splunk SIEM, Elastic Defend,  n8n, Google Gemini AI, AbuseIPDB,  and Slack to automate alert enrichment, analyst approval, and endpoint isolation.
