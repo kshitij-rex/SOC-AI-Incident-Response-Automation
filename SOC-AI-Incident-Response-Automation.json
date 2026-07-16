@@ -1,0 +1,370 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "843085b0-70e6-4ed0-abe7-c99a549747f0",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -352,
+        -96
+      ],
+      "id": "b783458c-bf15-4589-9b02-b65f75c3c2e8",
+      "name": "Webhook",
+      "webhookId": "843085b0-70e6-4ed0-abe7-c99a549747f0"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.5-flash",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.5-flash"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "Act as a Tier 1 SOC analyst assistant. When provided with a security alert or incident details (including indicators of compromise ,logs ,or metadata),perform the following steps:\n\nSummarize the alert - Provide a clear summary of what triggered the alert ,which systems/users are affected and the nature of the activity(e.g./suspicious login ,malware detection, lateral movement).\n\nEnrich with threat intelligence - Correlate any IOCs(IP addresses ,domains ,hashes)with known threat intel sources .For any IP enrichment, use the tool named 'AbuseIPDB-Enrichment'. Highlight if the indicators are associated with known malware or threat actors.\n\nAssess severity - Based on MITRE ATT&CK mapping ,identify tactics/techniques, and provide an initial severity rating(Low, Medium, High, Critical).\n\nRecommend next action - Suggest investigation steps and potential containment actions."
+            },
+            {
+              "content": "Format output clearly - Return findings in a structured format (Summary, IOC Enrichment, Severity Assessment, Recommended Actions)."
+            },
+            {
+              "content": "=Alert: {{ $json.body.search_name }}\nAlert Details: {{ JSON.stringify($json.body.result,['_time','user','ComputerName'],2)}}\nSource IP: 80.94.93.233"
+            }
+          ]
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1.2,
+      "position": [
+        -160,
+        -96
+      ],
+      "id": "ca7d1f5c-f718-41ff-9cb7-d1e560061af1",
+      "name": "Message a model",
+      "retryOnFail": true,
+      "maxTries": 5,
+      "credentials": {
+        "googlePalmApi": {
+          "id": "2zD397EjIqrIq8Bs",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "C0BBCGDSN23",
+          "mode": "list",
+          "cachedResultName": "alerts"
+        },
+        "text": "=🚨 SOC ALERT - Analyst Approval Required\n\nAlert Type:\nSSH Brute Force Detected\n\nSeverity:\n🔴 High\n\n🤖 AI Investigation\n\n{{$node[\"Message a model\"].json.content.parts[0].text}}\n\n\n{{$json.host.name}}\n\n\n{{$json.source.ip}}\n\n────────────────────────\n\n🚨 SOC ALERT\n\nAI recommends host isolation.\n\n👉 <{{$execution.resumeUrl}}&action=approve|🟢 Accept Isolation>\n\n👉 <{{$execution.resumeUrl}}&action=reject|🔴 Reject Isolation>",
+        "otherOptions": {}
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.5,
+      "position": [
+        144,
+        -112
+      ],
+      "id": "82a895c4-9351-4dc7-8be2-4802faaf579f",
+      "name": "Send a message",
+      "webhookId": "4a7f208a-5d39-4e43-a785-962a41dbbe95",
+      "credentials": {
+        "slackApi": {
+          "id": "sKew2MgvunoCoVpH",
+          "name": "Slack account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "https://api.abuseipdb.com/api/v2/check",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "ipAddress",
+              "value": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('parameters0_Value', ``, 'string') }}"
+            },
+            {
+              "name": "maxAgeInDays",
+              "value": "1"
+            },
+            {
+              "name": "verbose"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Key",
+              "value": "cd3408ab975ec522eb6e3d47116555ee45ebd394a079c2bac1a3f1b344a3c6675076d09c58b99162"
+            },
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.4,
+      "position": [
+        -208,
+        144
+      ],
+      "id": "da13542a-6be2-4bb5-8901-f9274acd0e74",
+      "name": "AbuseIPDB-Enrichment"
+    },
+    {
+      "parameters": {
+        "resume": "webhook",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        304,
+        -144
+      ],
+      "id": "a6eaae11-2276-4fd5-b8dd-d6af0a940c9c",
+      "name": "Wait",
+      "webhookId": "ca707282-6f67-4230-9ae0-c838f053a0e3"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://my-security-project-a702c3.kb.asia-south1.gcp.elastic.cloud/api/endpoint/action/isolate",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "kbn-xsrf",
+              "value": "true"
+            },
+            {
+              "name": "Authorization",
+              "value": "ApiKey a0xsd1g1OEJNaXdvSHUxTGtuZVk6NVNHNnZjcHBEb3FWdXYxMEJSWUJQQQ=="
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"endpoint_ids\": [\n    \"657bb263-79be-420d-912b-a30d86bdcf0a\"\n  ],\n  \"comment\": \"Host isolated after analyst approval via n8n.\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        528,
+        -48
+      ],
+      "id": "76490f14-5006-413e-bac0-3e06b3b34482",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "C0BBCGDSN23",
+          "mode": "list",
+          "cachedResultName": "alerts"
+        },
+        "text": "=🛑 Host Isolation Successful\n\nHostname: DESKTOP-UA98JU0\n\nAction:\nElastic Defend has successfully isolated the endpoint.\n\nStatus:\n✅ Network isolation applied\n\nPerformed by:\nn8n SOAR Playbook\n\nTime:\n{{ $now }}\n\nReference:\nAlert approved by SOC analyst.",
+        "otherOptions": {}
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.5,
+      "position": [
+        672,
+        -96
+      ],
+      "id": "3a794172-06f5-4a68-84a2-ddbac2fe41a6",
+      "name": "Send a message1",
+      "webhookId": "7775d04e-7055-4d58-aa3f-b044d1d36b1b",
+      "credentials": {
+        "slackApi": {
+          "id": "sKew2MgvunoCoVpH",
+          "name": "Slack account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "f6387bb7-20b3-4c9a-931e-b5773b7b4da2",
+              "leftValue": "={{$json.query.action}}",
+              "rightValue": "approve",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        208,
+        176
+      ],
+      "id": "5990722f-ffef-4d0c-8d01-2efd68ff00ab",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "C0BBCGDSN23",
+          "mode": "list",
+          "cachedResultName": "alerts"
+        },
+        "text": "=❌ Host Isolation Request Rejected  Analyst: {{$json.query.analyst}}  Hostname: {{$json.query.hostname}}  IP: {{$json.query.ip}}  Decision: REJECTED  No host isolation action was performed.  Time: {{$now}}",
+        "otherOptions": {}
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.5,
+      "position": [
+        640,
+        208
+      ],
+      "id": "674a7433-b4d7-43d7-9df7-08b41b3eea9a",
+      "name": "Send a message2",
+      "webhookId": "912150b9-444d-46a8-8de0-ae51654f9730",
+      "credentials": {
+        "slackApi": {
+          "id": "sKew2MgvunoCoVpH",
+          "name": "Slack account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Message a model",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AbuseIPDB-Enrichment": {
+      "ai_tool": [
+        [
+          {
+            "node": "Message a model",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Send a message1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send a message2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "f9cd1d3d-8431-434d-8a2e-632c07490923",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "d37345ecb85e67eb7fcc686e84fdf452cfe4d8b84963665071bd33221c8e115d"
+  },
+  "nodeGroups": [],
+  "id": "tS0ijUaPOSxNe38r",
+  "tags": []
+}
