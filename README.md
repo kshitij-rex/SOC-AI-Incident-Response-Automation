@@ -59,3 +59,66 @@ Slack Confirmation
 - Human-in-the-loop decision making
 - Reject path with analyst notification
 - REST API integration with AbuseIPDB, Google Gemini AI, Slack, and Elastic Defend
+
+# 📸 Project Demonstration
+
+## 1. Complete Automation Workflow
+
+![Workflow](screenshots/n8n-workflow.png)
+
+
+---
+
+## 2. Analyst Approval via Slack
+
+![Slack Approval](screenshots/Slack-approval.png)
+
+---
+
+## 3. Analyst Approved
+
+![Approved](screenshots/analyst-approved.png)
+
+
+
+## 4. Endpoint  Isolation
+
+![Isolated](screenshots/host-isolated.png)
+
+---
+
+## 5. Endpoint Successfully Isolated
+
+![Isolated](screenshots/elastic-host-isolated.png)
+
+---
+
+## 6. Successful n8n Workflow Execution
+
+![Execution](screenshots/n8n-successful-execution.png)
+
+---
+
+## 7. Analyst Rejected
+
+![Rejected](screenshots/analyst-rejected.png)
+
+---
+
+## 8. Rejected n8n Workflow Execution
+
+![Rejected](screenshots/reject-workflow.png)
+
+---
+
+## 9. Endpoint Unisolation
+
+![Released](screenshots/host-released-successful.png)
+
+---
+
+## 10. Endpoint Successfully Released
+
+![Released](screenshots/elastic-host-released.png)
+
+---
