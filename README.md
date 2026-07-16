@@ -16,6 +16,23 @@ This demonstrates how AI-assisted automation can reduce analyst workload, improv
 
 ---
 
+---
+
+# 🛠 Tech Stack
+
+| Category | Technology |
+|----------|------------|
+| SIEM | Splunk Enterprise |
+| Workflow Automation | n8n |
+| Artificial Intelligence | Google Gemini AI |
+| Threat Intelligence | AbuseIPDB API |
+| Collaboration | Slack |
+| Endpoint Detection & Response | Elastic Defend |
+| API Communication | REST APIs |
+| Containerization | Docker |
+| Operating System | Ubuntu Server, Windows 10 |
+
+
 ## 🏗 Workflow Architecture
 ```text
 Splunk Alert
