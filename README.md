@@ -32,6 +32,32 @@ This demonstrates how AI-assisted automation can reduce analyst workload, improv
 | Containerization | Docker |
 | Operating System | Ubuntu Server, Windows 10 |
 
+---
+
+# 📂 Project Structure
+
+```
+SOC-AI-Incident-Response-Automation/
+│
+├── README.md
+├── LICENSE
+│
+├── workflow/
+│   └── n8n-workflow.json
+│
+└── screenshots/
+    ├── n8n-workflow.png
+    ├── Slack-approval.png
+    ├── analyst-approved.png
+    ├── analyst-rejected.png
+    ├── elastic-host-isolated.png
+    ├── elastic-host-released.png
+    ├── host-isolated.png
+    ├── host-released-successful.png
+    ├── n8n-successful-execution.png
+    └── reject-workflow.png
+```
+
 
 ## 🏗 Workflow Architecture
 ```text
