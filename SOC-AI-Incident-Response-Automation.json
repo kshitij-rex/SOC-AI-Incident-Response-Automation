@@ -4,7 +4,7 @@
     {
       "parameters": {
         "httpMethod": "POST",
-        "path": "843085b0-70e6-4ed0-abe7-c99a549747f0",
+        "path": "843085b0-77-c99a549747f0",
         "options": {}
       },
       "type": "n8n-nodes-base.webhook",
@@ -13,9 +13,9 @@
         -352,
         -96
       ],
-      "id": "b783458c-bf15-4589-9b02-b65f75c3c2e8",
+      "id": "",
       "name": "Webhook",
-      "webhookId": "843085b0-70e6-4ed0-abe7-c99a549747f0"
+      "webhookId": ""
     },
     {
       "parameters": {
@@ -47,13 +47,13 @@
         -160,
         -96
       ],
-      "id": "ca7d1f5c-f718-41ff-9cb7-d1e560061af1",
+      "id": "",
       "name": "Message a model",
       "retryOnFail": true,
       "maxTries": 5,
       "credentials": {
         "googlePalmApi": {
-          "id": "2zD397EjIqrIq8Bs",
+          "id": "YOUR_CREDENTIAL",
           "name": "Google Gemini(PaLM) Api account"
         }
       }
@@ -63,7 +63,7 @@
         "select": "channel",
         "channelId": {
           "__rl": true,
-          "value": "C0BBCGDSN23",
+          "value": "YOUR_CHANNEL_ID",
           "mode": "list",
           "cachedResultName": "alerts"
         },
@@ -76,12 +76,12 @@
         144,
         -112
       ],
-      "id": "82a895c4-9351-4dc7-8be2-4802faaf579f",
+      "id": "",
       "name": "Send a message",
       "webhookId": "4a7f208a-5d39-4e43-a785-962a41dbbe95",
       "credentials": {
         "slackApi": {
-          "id": "sKew2MgvunoCoVpH",
+          "id": "YOUR_CREDENTIAL",
           "name": "Slack account"
         }
       }
@@ -110,7 +110,7 @@
           "parameters": [
             {
               "name": "Key",
-              "value": "cd3408ab975ec522eb6e3d47116555ee45ebd394a079c2bac1a3f1b344a3c6675076d09c58b99162"
+              "value": "YOUR_ABUSEIPDB_API_KEY"
             },
             {
               "name": "Accept",
@@ -126,7 +126,7 @@
         -208,
         144
       ],
-      "id": "da13542a-6be2-4bb5-8901-f9274acd0e74",
+      "id": "",
       "name": "AbuseIPDB-Enrichment"
     },
     {
@@ -140,14 +140,14 @@
         304,
         -144
       ],
-      "id": "a6eaae11-2276-4fd5-b8dd-d6af0a940c9c",
+      "id": "",
       "name": "Wait",
-      "webhookId": "ca707282-6f67-4230-9ae0-c838f053a0e3"
+      "webhookId": ""
     },
     {
       "parameters": {
         "method": "POST",
-        "url": "https://my-security-project-a702c3.kb.asia-south1.gcp.elastic.cloud/api/endpoint/action/isolate",
+        "url": "https://your-elastic-cloud-instance.elastic.cloud",
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
@@ -157,13 +157,13 @@
             },
             {
               "name": "Authorization",
-              "value": "ApiKey a0xsd1g1OEJNaXdvSHUxTGtuZVk6NVNHNnZjcHBEb3FWdXYxMEJSWUJQQQ=="
+              "value": "ApiKey YOUR_ELASTIC_API_KEY"
             }
           ]
         },
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "{\n  \"endpoint_ids\": [\n    \"657bb263-79be-420d-912b-a30d86bdcf0a\"\n  ],\n  \"comment\": \"Host isolated after analyst approval via n8n.\"\n}",
+        "jsonBody": "{\n  \"endpoint_ids\": [\n    \"6a\"\n  ],\n  \"comment\": \"Host isolated after analyst approval via n8n.\"\n}",
         "options": {}
       },
       "type": "n8n-nodes-base.httpRequest",
@@ -172,7 +172,7 @@
         528,
         -48
       ],
-      "id": "76490f14-5006-413e-bac0-3e06b3b34482",
+      "id": "",
       "name": "HTTP Request"
     },
     {
@@ -180,11 +180,11 @@
         "select": "channel",
         "channelId": {
           "__rl": true,
-          "value": "C0BBCGDSN23",
+          "value": "YOUR_CHANNEL_ID",
           "mode": "list",
           "cachedResultName": "alerts"
         },
-        "text": "=🛑 Host Isolation Successful\n\nHostname: DESKTOP-UA98JU0\n\nAction:\nElastic Defend has successfully isolated the endpoint.\n\nStatus:\n✅ Network isolation applied\n\nPerformed by:\nn8n SOAR Playbook\n\nTime:\n{{ $now }}\n\nReference:\nAlert approved by SOC analyst.",
+        "text": "=🛑 Host Isolation Successful\n\nHostname: DESK\n\nAction:\nElastic Defend has successfully isolated the endpoint.\n\nStatus:\n✅ Network isolation applied\n\nPerformed by:\nn8n SOAR Playbook\n\nTime:\n{{ $now }}\n\nReference:\nAlert approved by SOC analyst.",
         "otherOptions": {}
       },
       "type": "n8n-nodes-base.slack",
@@ -193,12 +193,12 @@
         672,
         -96
       ],
-      "id": "3a794172-06f5-4a68-84a2-ddbac2fe41a6",
+      "id": "",
       "name": "Send a message1",
-      "webhookId": "7775d04e-7055-4d58-aa3f-b044d1d36b1b",
+      "webhookId": "",
       "credentials": {
         "slackApi": {
-          "id": "sKew2MgvunoCoVpH",
+          "id": "YOUR_CREDENTIAL",
           "name": "Slack account"
         }
       }
@@ -214,7 +214,7 @@
           },
           "conditions": [
             {
-              "id": "f6387bb7-20b3-4c9a-931e-b5773b7b4da2",
+              "id": "",
               "leftValue": "={{$json.query.action}}",
               "rightValue": "approve",
               "operator": {
@@ -234,7 +234,7 @@
         208,
         176
       ],
-      "id": "5990722f-ffef-4d0c-8d01-2efd68ff00ab",
+      "id": "",
       "name": "If"
     },
     {
@@ -242,7 +242,7 @@
         "select": "channel",
         "channelId": {
           "__rl": true,
-          "value": "C0BBCGDSN23",
+          "value": "YOUR_CHANNEL_ID",
           "mode": "list",
           "cachedResultName": "alerts"
         },
@@ -255,12 +255,12 @@
         640,
         208
       ],
-      "id": "674a7433-b4d7-43d7-9df7-08b41b3eea9a",
+      "id": "",
       "name": "Send a message2",
-      "webhookId": "912150b9-444d-46a8-8de0-ae51654f9730",
+      "webhookId": "",
       "credentials": {
         "slackApi": {
-          "id": "sKew2MgvunoCoVpH",
+          "id": "YOUR_CREDENTIAL",
           "name": "Slack account"
         }
       }
@@ -359,12 +359,12 @@
     "binaryMode": "separate",
     "availableInMCP": false
   },
-  "versionId": "f9cd1d3d-8431-434d-8a2e-632c07490923",
+  "versionId": "",
   "meta": {
     "templateCredsSetupCompleted": true,
-    "instanceId": "d37345ecb85e67eb7fcc686e84fdf452cfe4d8b84963665071bd33221c8e115d"
+    "instanceId": ""
   },
   "nodeGroups": [],
-  "id": "tS0ijUaPOSxNe38r",
+  "id": "",
   "tags": []
 }
